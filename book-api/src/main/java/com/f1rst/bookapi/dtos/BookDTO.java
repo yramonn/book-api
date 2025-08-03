@@ -18,12 +18,15 @@ public class BookDTO {
     @JsonProperty("author_key")
     private List<String> authorKeys;
 
-
-
-    public String getTitle() {
-        return title;
-    }
-
+    @JsonProperty("key")
+    public void setKey(String key) {
+            if (key != null && key.startsWith("/works/")) {
+                this.id = key.substring("/works/".length());
+            } else {
+                this.id = key;
+            }
+        }
+        
     public void setTitle(String title) {
         this.title = title;
     }

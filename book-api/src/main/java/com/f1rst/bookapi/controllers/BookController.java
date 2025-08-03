@@ -4,10 +4,7 @@ import com.f1rst.bookapi.dtos.BookDTO;
 import com.f1rst.bookapi.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +25,32 @@ public class BookController {
         return ResponseEntity.
                 status(HttpStatus.OK).
                 body(bookService.getAllBooks(q, page, limit));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<BookDTO>> getBookById(@PathVariable(value = "id") String id) {
+            return ResponseEntity.
+                    status(HttpStatus.OK).
+                    body(bookService.getBookById(id));
+
+    }
+
+    @GetMapping("/author")
+    public ResponseEntity<List<BookDTO>> getBooksByAuthor(@RequestParam String author,
+                                                          @RequestParam(defaultValue = "1") int page,
+                                                          @RequestParam(defaultValue = "10") int limit) {
+        return ResponseEntity.
+                status(HttpStatus.OK).
+                body(bookService.getAllBooksByAuthor(author, page, limit));
+    }
+
+    @GetMapping("/gender")
+    public ResponseEntity<List<BookDTO>> getBooksByGender(@PathVariable(value = "gender") String gender,
+                                                          @RequestParam(defaultValue = "1") int page,
+                                                          @RequestParam(defaultValue = "10") int limit) {
+        return ResponseEntity.
+                status(HttpStatus.OK).
+                body(bookService.gelAllBooksByGender(gender, page, limit));
     }
 }
 
