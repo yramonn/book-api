@@ -1,0 +1,21 @@
+server:
+  port: 8082
+  servlet:
+    context-path: '/book-service/'
+spring:
+  application:
+    name: book-api
+logging:
+  level:
+    com.f1rst: TRACE
+    root: INFO
+    org.springframework.web: DEBUG
+    org.hibernate: INFO
+api:
+  openLibrary:
+    url:
+      books: 'https://openlibrary.org'
+data:
+  redis:
+    host: ${SPRING_DATA_REDIS_HOST:localhost}
+    port: ${SPRING_DATA_REDIS_PORT:6379}

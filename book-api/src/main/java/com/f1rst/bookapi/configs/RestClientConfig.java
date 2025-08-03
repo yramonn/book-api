@@ -12,7 +12,7 @@ import java.time.Duration;
 @Configuration
 public class RestClientConfig {
 
-    static final int TIMEOUT = 5000;
+    static final int TIMEOUT = 20000;
 
     @Bean
     public RestClient.Builder RestClientBuilder() {
