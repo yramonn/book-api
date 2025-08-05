@@ -1,8 +1,9 @@
 package com.f1rst.bookapi.services.impl;
 
 import com.f1rst.bookapi.clients.OpenLibraryClient;
+import com.f1rst.bookapi.dtos.BookByGenderDTO;
 import com.f1rst.bookapi.dtos.BookDTO;
-import com.f1rst.bookapi.models.BookRecentlyViewModel;
+import com.f1rst.bookapi.dtos.OpenLibraryByKeyResponseDTO;
 import com.f1rst.bookapi.services.BookRecentlyViewService;
 import com.f1rst.bookapi.services.BookService;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -57,31 +58,31 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDTO> getBookById(String id, String userId) {
+    public OpenLibraryByKeyResponseDTO getBookById(String id, String userId) {
         String cacheKey = String.format("bookById=%s", id);
-        List<BookDTO> booksFromCache = (List<BookDTO>) redisTemplate.opsForValue().get(cacheKey);
-        if (booksFromCache != null) {
-            return booksFromCache;
+        OpenLibraryByKeyResponseDTO bookFromCache = (OpenLibraryByKeyResponseDTO) redisTemplate.opsForValue().get(cacheKey);
+        if (bookFromCache != null) {
+            return bookFromCache;
         }
 
-        List<BookDTO> books = openLibraryClient.getBookById(id);
-        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
+        OpenLibraryByKeyResponseDTO book = openLibraryClient.getBookById(id);
+//        bookRecentlyViewService.saveRecentlyViewedBook(book, userId);
 
-        redisTemplate.opsForValue().set(cacheKey, books, Duration.ofMinutes(5));
-        return books;
+        redisTemplate.opsForValue().set(cacheKey, book, Duration.ofMinutes(5));
+        return book;
     }
 
     @Override
-    public List<BookDTO> gelAllBooksByGender(String gender, int page, int limit, String userId) {
+    public List<BookByGenderDTO> gelAllBooksByGender(String gender, int page, int limit, String userId) {
         String cacheKey = String.format("gelAllBooksByGender=%s:offset=%d:limit=%d", gender, page, limit);
-        List<BookDTO> booksFromCache = (List<BookDTO>) redisTemplate.opsForValue().get(cacheKey);
+        List<BookByGenderDTO> booksFromCache = (List<BookByGenderDTO>) redisTemplate.opsForValue().get(cacheKey);
 
         if (booksFromCache != null) {
             return booksFromCache;
         }
 
-        List<BookDTO> books = openLibraryClient.getBooksByGender(gender, limit, page);
-        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
+        List<BookByGenderDTO> books = openLibraryClient.getBooksByGender(gender, limit, page);
+//        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
 
         redisTemplate.opsForValue().set(cacheKey, books, Duration.ofMinutes(5));
         return books;

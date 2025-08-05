@@ -1,6 +1,8 @@
 package com.f1rst.bookapi.controllers;
 
+import com.f1rst.bookapi.dtos.BookByGenderDTO;
 import com.f1rst.bookapi.dtos.BookDTO;
+import com.f1rst.bookapi.dtos.OpenLibraryByKeyResponseDTO;
 import com.f1rst.bookapi.models.BookRecentlyViewModel;
 import com.f1rst.bookapi.services.BookRecentlyViewService;
 import com.f1rst.bookapi.services.BookService;
@@ -33,8 +35,8 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<BookDTO>> getBookById(@PathVariable(value = "id") String id,
-                                                     @RequestHeader("userId") String userId) {
+    public ResponseEntity<OpenLibraryByKeyResponseDTO> getBookById(@PathVariable(value = "id") String id,
+                                                                   @RequestHeader("userId") String userId) {
             return ResponseEntity.
                     status(HttpStatus.OK).
                     body(bookService.getBookById(id, userId));
@@ -52,10 +54,10 @@ public class BookController {
     }
 
     @GetMapping("/gender")
-    public ResponseEntity<List<BookDTO>> getBooksByGender(@PathVariable(value = "gender") String gender,
-                                                          @RequestParam(defaultValue = "1") int page,
-                                                          @RequestParam(defaultValue = "10") int limit,
-                                                          @RequestHeader("userId") String userId) {
+    public ResponseEntity<List<BookByGenderDTO>> getBooksByGender(@RequestParam(value = "gender") String gender,
+                                                                  @RequestParam(defaultValue = "1") int page,
+                                                                  @RequestParam(defaultValue = "10") int limit,
+                                                                  @RequestHeader("userId") String userId) {
         return ResponseEntity.
                 status(HttpStatus.OK).
                 body(bookService.gelAllBooksByGender(gender, page, limit, userId));

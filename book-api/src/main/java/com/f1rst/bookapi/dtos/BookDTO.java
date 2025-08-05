@@ -15,8 +15,6 @@ public class BookDTO {
     @JsonProperty("author_name")
     private List<String> authorNames;
 
-    @JsonProperty("author_key")
-    private List<String> authorKeys;
 
     @JsonProperty("key")
     public void setKey(String key) {
@@ -37,14 +35,6 @@ public class BookDTO {
 
     public void setAuthorNames(List<String> authorNames) {
         this.authorNames = authorNames;
-    }
-
-    public List<String> getAuthorKeys() {
-        return authorKeys;
-    }
-
-    public void setAuthorKeys(List<String> authorKeys) {
-        this.authorKeys = authorKeys;
     }
 
     public String getId() {

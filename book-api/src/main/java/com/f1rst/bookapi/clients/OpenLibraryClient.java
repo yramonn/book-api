@@ -1,7 +1,6 @@
 package com.f1rst.bookapi.clients;
 
-import com.f1rst.bookapi.dtos.BookDTO;
-import com.f1rst.bookapi.dtos.OpenLibraryResponseDTO;
+import com.f1rst.bookapi.dtos.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,34 +57,33 @@ public class OpenLibraryClient {
         }
     }
 
-    public List<BookDTO> getBookById(String id) {
-        String url = String.format("%s/books/%s", baseUrlOpenLibrary, id);
+    public OpenLibraryByKeyResponseDTO getBookById(String id) {
+        String url = String.format("%s/books/%s.json", baseUrlOpenLibrary, id);
         logger.debug("Request URL: {} ", url);
 
         try {
-            OpenLibraryResponseDTO response = restClient.get()
+            return restClient.get()
                     .uri(url)
                     .retrieve()
-                    .body(OpenLibraryResponseDTO.class);
+                    .body(OpenLibraryByKeyResponseDTO.class);
 
-            return response != null ? response.getDocs() : List.of();
         } catch (RestClientException e) {
             logger.error("Error Request RestClient with cause: {} ", e.getMessage());
             throw new RuntimeException("Error Request RestClient", e);
         }
     }
 
-    public List<BookDTO> getBooksByGender(String gender, int limit, int page) {
+    public List<BookByGenderDTO> getBooksByGender(String gender, int limit, int page) {
         String url = String.format("%s/subjects/%s.json?limit=%d&offset=%d", baseUrlOpenLibrary, gender, limit, page);
         logger.debug("Request URL: {} ", url);
 
         try {
-            OpenLibraryResponseDTO response = restClient.get()
+            OpenLibraryGenderResponseDTO response = restClient.get()
                     .uri(url)
                     .retrieve()
-                    .body(OpenLibraryResponseDTO.class);
+                    .body(OpenLibraryGenderResponseDTO.class);
 
-            return response != null ? response.getDocs() : List.of();
+            return response != null ? response.getWorks() : List.of();
         } catch (RestClientException e) {
             logger.error("Error Request RestClient with cause: {} ", e.getMessage());
             throw new RuntimeException("Error Request RestClient", e);
