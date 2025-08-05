@@ -5,6 +5,18 @@ server:
 spring:
   application:
     name: book-api
+  datasource:
+      url:  jdbc:postgresql://localhost:5432/book-service
+      username: postgres
+      password: admin
+  jpa:
+    hibernate:
+     ddl-auto: update
+    show_sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob.non-contextual-creation: true
 logging:
   level:
     com.f1rst: TRACE

@@ -46,4 +46,16 @@ public class BookDTO {
     public void setAuthorKeys(List<String> authorKeys) {
         this.authorKeys = authorKeys;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

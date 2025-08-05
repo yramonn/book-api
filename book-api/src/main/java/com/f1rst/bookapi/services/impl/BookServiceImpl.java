@@ -2,6 +2,8 @@ package com.f1rst.bookapi.services.impl;
 
 import com.f1rst.bookapi.clients.OpenLibraryClient;
 import com.f1rst.bookapi.dtos.BookDTO;
+import com.f1rst.bookapi.models.BookRecentlyViewModel;
+import com.f1rst.bookapi.services.BookRecentlyViewService;
 import com.f1rst.bookapi.services.BookService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -14,15 +16,17 @@ public class BookServiceImpl implements BookService {
 
     final OpenLibraryClient openLibraryClient;
     final RedisTemplate redisTemplate;
+    final BookRecentlyViewService bookRecentlyViewService;
 
-    public BookServiceImpl(OpenLibraryClient openLibraryClient, RedisTemplate redisTemplate) {
+    public BookServiceImpl(OpenLibraryClient openLibraryClient, RedisTemplate redisTemplate, BookRecentlyViewService bookRecentlyViewService) {
         this.openLibraryClient = openLibraryClient;
         this.redisTemplate = redisTemplate;
+        this.bookRecentlyViewService = bookRecentlyViewService;
     }
 
 
     @Override
-    public List<BookDTO> getAllBooks(String q, int page, int limit) {
+    public List<BookDTO> getAllBooks(String q, int page, int limit, String userId) {
         String cacheKey = String.format("books:q=%s:page=%d:limit=%d", q, page, limit);
 
         List<BookDTO> booksFromCache = (List<BookDTO>) redisTemplate.opsForValue().get(cacheKey);
@@ -31,25 +35,29 @@ public class BookServiceImpl implements BookService {
         }
 
         List<BookDTO> books = openLibraryClient.getAllBooks(q, page, limit);
+        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
+
         redisTemplate.opsForValue().set(cacheKey, books, Duration.ofMinutes(5));
         return books;
     }
 
     @Override
-    public List<BookDTO> getAllBooksByAuthor(String author, int page, int limit) {
-        String cacheKey = String.format("books:q=%s:page=%d:limit=%d", author, page, limit);
+    public List<BookDTO> getAllBooksByAuthor(String author, int page, int limit, String userId) {
+        String cacheKey = String.format("getAllBooksByAuthor:q=%s:page=%d:limit=%d", author, page, limit);
         List<BookDTO> booksFromCache = (List<BookDTO>) redisTemplate.opsForValue().get(cacheKey);
         if (booksFromCache != null) {
             return booksFromCache;
         }
 
         List<BookDTO> books = openLibraryClient.getBooksByAuthor(author, page, limit);
+        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
+
         redisTemplate.opsForValue().set(cacheKey, books, Duration.ofMinutes(5));
         return books;
     }
 
     @Override
-    public List<BookDTO> getBookById(String id) {
+    public List<BookDTO> getBookById(String id, String userId) {
         String cacheKey = String.format("bookById=%s", id);
         List<BookDTO> booksFromCache = (List<BookDTO>) redisTemplate.opsForValue().get(cacheKey);
         if (booksFromCache != null) {
@@ -57,19 +65,24 @@ public class BookServiceImpl implements BookService {
         }
 
         List<BookDTO> books = openLibraryClient.getBookById(id);
+        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
+
         redisTemplate.opsForValue().set(cacheKey, books, Duration.ofMinutes(5));
         return books;
     }
 
     @Override
-    public List<BookDTO> gelAllBooksByGender(String gender, int page, int limit) {
-        String cacheKey = String.format("books:gender=%s:offset=%d:limit=%d", gender, page, limit);
+    public List<BookDTO> gelAllBooksByGender(String gender, int page, int limit, String userId) {
+        String cacheKey = String.format("gelAllBooksByGender=%s:offset=%d:limit=%d", gender, page, limit);
         List<BookDTO> booksFromCache = (List<BookDTO>) redisTemplate.opsForValue().get(cacheKey);
+
         if (booksFromCache != null) {
             return booksFromCache;
         }
 
         List<BookDTO> books = openLibraryClient.getBooksByGender(gender, limit, page);
+        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
+
         redisTemplate.opsForValue().set(cacheKey, books, Duration.ofMinutes(5));
         return books;
     }
