@@ -118,7 +118,9 @@ docker-compose up --build
 
 🌐 Acesse a aplicação
 
-🚀 Swagger UI: http://localhost:8082/swagger-ui/index.html
+🚀 Swagger UI: localhost:8082/book-service/swagger-ui/index.html
+<img width="1285" height="580" alt="image" src="https://github.com/user-attachments/assets/e6d534e6-a8c8-42f6-825c-7696302b106a" />
+
 
 🧠 Redis: localhost:6379
 
@@ -128,7 +130,7 @@ Usuário: postgres
 
 Senha: admin
 
-Banco: bookdb
+Banco: book-service
 
 # 👨‍💻 Developer
 Ramon Silva
