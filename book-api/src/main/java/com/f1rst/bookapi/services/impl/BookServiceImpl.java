@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDTO> getAllBooks(String q, int page, int limit, String userId) {
-        String cacheKey = String.format("books:q=%s:page=%d:limit=%d", q, page, limit);
+        String cacheKey = String.format("getAllBooks:q=%s:page=%d:limit=%d", q, page, limit);
 
         List<BookDTO> booksFromCache = (List<BookDTO>) redisTemplate.opsForValue().get(cacheKey);
         if (booksFromCache != null) {
@@ -59,14 +59,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public OpenLibraryByKeyResponseDTO getBookById(String id, String userId) {
-        String cacheKey = String.format("bookById=%s", id);
+        String cacheKey = String.format("getBookById=%s", id);
         OpenLibraryByKeyResponseDTO bookFromCache = (OpenLibraryByKeyResponseDTO) redisTemplate.opsForValue().get(cacheKey);
         if (bookFromCache != null) {
             return bookFromCache;
         }
 
         OpenLibraryByKeyResponseDTO book = openLibraryClient.getBookById(id);
-//        bookRecentlyViewService.saveRecentlyViewedBook(book, userId);
+
+        bookRecentlyViewService.saveRecentlyViewedBookById(book, userId);
 
         redisTemplate.opsForValue().set(cacheKey, book, Duration.ofMinutes(5));
         return book;
@@ -82,7 +83,7 @@ public class BookServiceImpl implements BookService {
         }
 
         List<BookByGenderDTO> books = openLibraryClient.getBooksByGender(gender, limit, page);
-//        bookRecentlyViewService.saveRecentlyViewedBook(books, userId);
+        bookRecentlyViewService.saveRecentlyViewedBookByGender(books, userId);
 
         redisTemplate.opsForValue().set(cacheKey, books, Duration.ofMinutes(5));
         return books;

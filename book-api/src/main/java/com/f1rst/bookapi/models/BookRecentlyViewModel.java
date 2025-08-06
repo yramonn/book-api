@@ -1,5 +1,6 @@
 package com.f1rst.bookapi.models;
 
+import com.f1rst.bookapi.dtos.BookByGenderDTO;
 import com.f1rst.bookapi.dtos.BookDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -36,6 +37,16 @@ public class BookRecentlyViewModel {
         bookRecentlyViewModel.setBookKey(dto.getId());
         bookRecentlyViewModel.setTitle(dto.getTitle());
         bookRecentlyViewModel.setAuthorNames(dto.getAuthorNames().getFirst());
+        bookRecentlyViewModel.setViewedAt(LocalDateTime.now());
+
+        return bookRecentlyViewModel;
+    }
+
+    public static BookRecentlyViewModel buildEntity(BookByGenderDTO dto, String userId) {
+        var bookRecentlyViewModel = new BookRecentlyViewModel();
+        bookRecentlyViewModel.setUserId(userId);
+        bookRecentlyViewModel.setBookKey(dto.getId());
+        bookRecentlyViewModel.setTitle(dto.getTitle());
         bookRecentlyViewModel.setViewedAt(LocalDateTime.now());
 
         return bookRecentlyViewModel;
