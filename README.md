@@ -93,32 +93,44 @@ Desenvolver uma API para consulta de livros, seus autores e gêneros, utilizando
 [🔗 Acessar repositório no GitHub](https://github.com/yramonn/book-api)
 
 ## 🚀 Setup do projeto
-📦 Clone
+# 📦 Clone
 git clone https://github.com/yramonn/book-api.git
 
 ☕ Setup do ambiente
-Confirmar instalação do Java 21 e  Maven installed e configuração na IDE para gerenciar as dependências.
 
-🐳 Start do Docker
+Confirmar instalação do Java 21, Maven  e configuração na IDE para gerenciar as dependências.
+
+💪 Executando com Docker Compose
+
+O projeto inclui um docker-compose.yml que sobe automaticamente os seguintes serviços:
+
+✅ book-api
+
+✅ Redis
+
+✅ PostgreSQL
+
+🚀 Como rodar o projeto com Docker
+
+Build e execute os containers
+
 docker-compose up --build
 
-🚀 Swagger
-Swagger UI:
-http://localhost:8082/swagger-ui/index.html
+🌐 Acesse a aplicação
 
-PostgreSQL (Database Connection):
+🚀 Swagger UI: http://localhost:8082/swagger-ui/index.html
 
-Host: localhost
+🧠 Redis: localhost:6379
 
-Port: 5432
+🐘 PostgreSQL: localhost:5432
 
-Database: book-service
+Usuário: postgres
 
-Username: postgres
+Senha: admin
 
-Password: admin
+Banco: bookdb
 
-# Developer
+# 👨‍💻 Developer
 Ramon Silva
 https://www.linkedin.com/in/ramon--silva/
 
