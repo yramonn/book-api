@@ -2,6 +2,11 @@
 
 API REST para uma livraria independente, com integração à Open Library, cache em Redis, e persistência de livros visualizados recentemente.
 
+# Diagrama
+<img width="1172" height="471" alt="image" src="https://github.com/user-attachments/assets/a5db0158-b3d2-485b-bfe8-c27b9ba2220c" />
+
+
+
 ---
 
 ## I. Arquitetura de Solução e Arquitetura Técnica
@@ -86,4 +91,34 @@ Desenvolver uma API para consulta de livros, seus autores e gêneros, utilizando
 ## 📁 Repositório
 
 [🔗 Acessar repositório no GitHub](https://github.com/yramonn/book-api)
+
+## 🚀 Setup do projeto
+📦 Clone
+git clone https://github.com/yramonn/book-api.git
+
+☕ Setup do ambiente
+Confirmar instalação do Java 21 e  Maven installed e configuração na IDE para gerenciar as dependências.
+
+🐳 Start do Docker
+docker-compose up --build
+
+🚀 Swagger
+Swagger UI:
+http://localhost:8082/swagger-ui/index.html
+
+PostgreSQL (Database Connection):
+
+Host: localhost
+
+Port: 5432
+
+Database: book-service
+
+Username: postgres
+
+Password: admin
+
+# Developer
+Ramon Silva
+https://www.linkedin.com/in/ramon--silva/
 
