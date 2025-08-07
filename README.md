@@ -35,7 +35,7 @@ Além disso, o projeto adota boas práticas:
 | API Pública | OpenLibrary |
 | Build Tool | Maven |
 | Persistência | Spring Data JPA (Postgresql) |
-| Testes | JUnit |
+| Testes | JUnit/Mockito |
 | Docker
 
 ---
