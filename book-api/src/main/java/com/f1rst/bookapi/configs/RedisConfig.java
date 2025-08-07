@@ -1,6 +1,5 @@
 package com.f1rst.bookapi.configs;
 
-import com.f1rst.bookapi.dtos.BookDTO;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
