@@ -1,6 +1,7 @@
 package com.f1rst.bookapi.clients;
 
 import com.f1rst.bookapi.dtos.*;
+import com.f1rst.bookapi.exceptions.OpenLibraryClientException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +37,7 @@ public class OpenLibraryClient {
             return response != null ? response.getDocs() : List.of();
         } catch (RestClientException e) {
             logger.error("Error Request RestClient with cause: {} ", e.getMessage());
-            throw new RuntimeException("Error Request RestClient", e);
+            throw new OpenLibraryClientException("Failed to getAllBooks from OpenLibrary API");
         }
     }
 
@@ -53,7 +54,7 @@ public class OpenLibraryClient {
             return response != null ? response.getDocs() : List.of();
         } catch (RestClientException e) {
             logger.error("Error Request RestClient with cause: {} ", e.getMessage());
-            throw new RuntimeException("Error Request RestClient", e);
+            throw new OpenLibraryClientException("Failed to getBooksByAuthor from OpenLibrary API");
         }
     }
 
@@ -69,7 +70,7 @@ public class OpenLibraryClient {
 
         } catch (RestClientException e) {
             logger.error("Error Request RestClient with cause: {} ", e.getMessage());
-            throw new RuntimeException("Error Request RestClient", e);
+            throw new OpenLibraryClientException("Failed to getBookById from OpenLibrary API");
         }
     }
 
@@ -86,7 +87,7 @@ public class OpenLibraryClient {
             return response != null ? response.getWorks() : List.of();
         } catch (RestClientException e) {
             logger.error("Error Request RestClient with cause: {} ", e.getMessage());
-            throw new RuntimeException("Error Request RestClient", e);
+            throw new OpenLibraryClientException("Failed to getBooksByGender from OpenLibrary API");
         }
     }
 }
