@@ -2,7 +2,7 @@ package com.f1rst.bookapi.services;// src/test/java/com/f1rst/bookapi/services/i
 import com.f1rst.bookapi.dtos.BookByGenderDTO;
 import com.f1rst.bookapi.dtos.BookDTO;
 import com.f1rst.bookapi.dtos.OpenLibraryByKeyResponseDTO;
-import com.f1rst.bookapi.exceptions.UserNotFoundException;
+import com.f1rst.bookapi.exceptions.BookNotFoundException;
 import com.f1rst.bookapi.models.BookRecentlyViewModel;
 import com.f1rst.bookapi.repositories.BookRecentlyViewRepository;
 import com.f1rst.bookapi.services.impl.BookRecentlyViewServiceImpl;
@@ -77,7 +77,7 @@ class BookRecentlyViewServiceImplTest {
         when(bookRecentlyViewRepository.findTop10ByUserIdOrderByViewedAtDesc("user5"))
                 .thenReturn(Collections.emptyList());
         assertThatThrownBy(() -> service.getRecentlyViewedBooks("user5"))
-                .isInstanceOf(UserNotFoundException.class)
+                .isInstanceOf(BookNotFoundException.class)
                 .hasMessageContaining("user5");
     }
 }

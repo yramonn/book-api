@@ -36,7 +36,9 @@ public class BookRecentlyViewModel {
         bookRecentlyViewModel.setUserId(userId);
         bookRecentlyViewModel.setBookKey(dto.getId());
         bookRecentlyViewModel.setTitle(dto.getTitle());
-        bookRecentlyViewModel.setAuthorNames(dto.getAuthorNames().getFirst());
+        if(dto.getAuthorNames() != null && !dto.getAuthorNames().isEmpty()) {
+            bookRecentlyViewModel.setAuthorNames(dto.getAuthorNames().getFirst());
+        }
         bookRecentlyViewModel.setViewedAt(LocalDateTime.now());
 
         return bookRecentlyViewModel;

@@ -3,7 +3,7 @@ package com.f1rst.bookapi.services.impl;
 import com.f1rst.bookapi.dtos.BookByGenderDTO;
 import com.f1rst.bookapi.dtos.BookDTO;
 import com.f1rst.bookapi.dtos.OpenLibraryByKeyResponseDTO;
-import com.f1rst.bookapi.exceptions.UserNotFoundException;
+import com.f1rst.bookapi.exceptions.BookNotFoundException;
 import com.f1rst.bookapi.models.BookRecentlyViewModel;
 import com.f1rst.bookapi.repositories.BookRecentlyViewRepository;
 import com.f1rst.bookapi.services.BookRecentlyViewService;
@@ -53,7 +53,7 @@ public class BookRecentlyViewServiceImpl implements BookRecentlyViewService {
     public List<BookRecentlyViewModel> getRecentlyViewedBooks(String userId) {
         List<BookRecentlyViewModel> books = bookRecentlyViewRepository.findTop10ByUserIdOrderByViewedAtDesc(userId);
         if(books.isEmpty()) {
-            throw new UserNotFoundException(userId);
+            throw new BookNotFoundException(userId);
         }
         return books;
     }
